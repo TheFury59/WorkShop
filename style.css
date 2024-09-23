@@ -163,10 +163,10 @@ body {
 }
 
 .planetImg {
-  transform: scale(0.2) rotate(158deg);
+  transform: scale(0.7) rotate(158deg);
 
   position: absolute;
-  top: -5%;
+  top: 0%;
   right: 13%;
   animation: float 12s ease-in-out infinite;
 }
