@@ -3,6 +3,9 @@ let curs = document.querySelector(".cursor");
 let menuItems = document.querySelectorAll(".menu-item");
 let mainText = document.querySelector(".mainText");
 
+// S'assurer que le défilement est autorisé
+document.body.style.overflow = "auto";
+
 document.addEventListener("mousemove", (e) => {
   let x = e.pageX;
   let y = e.pageY;
@@ -36,8 +39,7 @@ menuBtn.addEventListener("click", () => {
   }
 });
 
-// menu item click animation and changing maim title
-
+// menu item click animation and changing main title
 menuItems.forEach((item, index) => {
   item.addEventListener("click", () => {
     curs.classList.add("explosion");
@@ -50,6 +52,9 @@ menuItems.forEach((item, index) => {
 // Taken from https://codepen.io/enesser/pen/jdenE
 
 function main() {
+  // S'assurer que le défilement est autorisé au cas où il serait bloqué
+  document.body.style.overflow = "auto";
+
   let scene = new THREE.Scene();
   let camera = new THREE.PerspectiveCamera(
     45,
@@ -157,7 +162,7 @@ function main() {
       size: 2,
       transparent: true,
       blending: THREE.AdditiveBlending,
-      map: generateSprite()
+      map: generateSprite(),
     });
 
     let system = new THREE.ParticleSystem(geom, material);
