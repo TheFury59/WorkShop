@@ -1,2 +1,0 @@
-# WorkShop
-Projet EPSI WorkSHOP
