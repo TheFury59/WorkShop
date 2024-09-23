@@ -36,7 +36,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: black;
 }
 .side-menu #menuBtn {
   position: absolute;
@@ -120,6 +119,7 @@ body {
   position: relative;
   transform: translateX(-50%) rotate(90deg);
   position: absolute;
+  background-color: black;
 }
 
 .mainText {
