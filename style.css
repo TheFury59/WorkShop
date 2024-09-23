@@ -108,6 +108,7 @@ body {
   text-decoration: none;
   margin: 25px 0;
   font-size: 23px;
+  color: #000000;
 }
 .side-menu .straight-line {
   margin: 35px 0;
@@ -119,7 +120,6 @@ body {
   position: relative;
   transform: translateX(-50%) rotate(90deg);
   position: absolute;
-  background-color: black;
 }
 
 .mainText {
