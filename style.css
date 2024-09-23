@@ -234,27 +234,28 @@ body {
 
 .profile-card {
   background-color: white;
-  width: 250px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Augmenté pour agrandir les cartes */
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: transform 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .profile-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.08);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .banner {
-  height: 80px;
+  height: 100px; /* Augmenté pour agrandir la bannière */
   background-color: #0077b5; /* Couleur de la bannière */
 }
 
 .profile-pic {
-  width: 100px;
-  height: 100px;
+  width: 120px; /* Augmenté pour une plus grande photo de profil */
+  height: 120px;
   border-radius: 50%;
-  margin: -50px auto 10px;
+  margin: -60px auto 10px;
   border: 5px solid white;
   overflow: hidden;
 }
@@ -265,25 +266,36 @@ body {
 }
 
 .info {
-  padding: 10px 20px;
+  padding: 15px 20px; /* Plus de padding pour aérer le contenu */
   text-align: center;
 }
 
 .info h2 {
-  margin: 10px 0 5px;
-  font-size: 1.4em;
+  margin: 15px 0 5px;
+  font-size: 1.6em; /* Augmenté pour agrandir le texte du nom */
   color: #333;
 }
 
 .info p {
-  font-size: 0.9em;
+  font-size: 1em;
   color: #555;
 }
 
-/* Responsive Design */
+/* Responsive Design pour les écrans plus petits */
 @media (max-width: 768px) {
   .team {
       flex-direction: column;
       align-items: center;
+  }
+
+  .profile-card {
+      width: 90%; /* Les cartes occupent 90% de la largeur de l'écran */
+      margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .profile-card {
+      width: 45%; /* Les cartes occupent 45% de la largeur de l'écran pour les tablettes */
   }
 }
