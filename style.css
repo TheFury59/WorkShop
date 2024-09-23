@@ -246,9 +246,24 @@ body {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.banner {
+.bannerteo {
   height: 100px; /* Augmenté pour agrandir la bannière */
-  background-color: #0077b5; /* Couleur de la bannière */
+  background-color: #EE7418; /* Couleur de la bannière */
+}
+
+.bannerMartin {
+  height: 100px; /* Augmenté pour agrandir la bannière */
+  background-color: #00B3D8; /* Couleur de la bannière */
+}
+
+.bannerMathiss {
+  height: 100px; /* Augmenté pour agrandir la bannière */
+  background-color: #E71B48; /* Couleur de la bannière */
+}
+
+.bannerAlexandre {
+  height: 100px; /* Augmenté pour agrandir la bannière */
+  background-color: #FFCF15; /* Couleur de la bannière */
 }
 
 .profile-pic {
