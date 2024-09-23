@@ -101,6 +101,7 @@ body {
 .side-menu .menu {
   text-align: center;
   display: none;
+  background-color: #000000;
 }
 .side-menu .menu a {
   display: block;
@@ -108,7 +109,6 @@ body {
   text-decoration: none;
   margin: 25px 0;
   font-size: 23px;
-  color: #000000;
 }
 .side-menu .straight-line {
   margin: 35px 0;
