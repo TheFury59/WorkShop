@@ -6,8 +6,8 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
     <script defer src="https:////cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js"></script>
-    <script defer src="js/main.js"></script>
-    <link rel="stylesheet" href="style/style.css">
+    <script defer src="../js/main.js"></script>
+    <link rel="stylesheet" href="../style/style.css">
     <title>WorkShop</title>
 </head>
 <body>
@@ -21,7 +21,7 @@
         <span></span>
       </div>
       <div class="menu"></br></br></br></br></br></br></br></br>
-        <a class="menu-item" href="index.php">ACCUEIL</a>
+        <a class="menu-item" href="../index.php">ACCUEIL</a>
         <a class="menu-item" href="page/equipe.html">L'EQUIPE</a>
         <a class="menu-item" href="page/epsilink.html">EPSILINK</a>
         <a class="menu-item" href="page/workshop.html">WORKSHOP CONCEPTION</a>
@@ -30,7 +30,7 @@
       <div class="straight-line"></div>
     </div>
     
-    <img class="planetImg" src="img/Epsi.png" />
+    <img class="planetImg" src="../img/Epsi.png" />
 
     <!--https://assets.codepen.io/1651485/planet.png-->
     
@@ -67,7 +67,7 @@
               <label for="password">Mot de passe</label>
           </div>
 
-          <button type="submit">Crée un compte</button>
+          <button type="submit">Crée mon compte</button>
       </form>
   </div>
 </body>
