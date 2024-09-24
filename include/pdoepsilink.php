@@ -38,7 +38,7 @@ function checkUser($login,$pwd):bool {
         }
     }
     else
-        throw new Exception("erreur dans la requÃªte");
+        throw new Exception("erreur dans la requête");
 return $user;   
 }
 
@@ -78,7 +78,7 @@ return $user;
         $data = array('id'=>$id);
         // Exécute la requête en lui passant les valeurs récupérées du formulaire
         if ($monObjPdoStatement->execute($data)) {
-            $fetch = $monObjPdoStatement->fetch()
+            $fetch = $monObjPdoStatement->fetch();
             if(is_array($fetch)) // si revoit un tableau donc un utilisateur
                 return true; // vrai
             else
