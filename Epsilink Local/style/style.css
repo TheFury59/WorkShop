@@ -1,0 +1,513 @@
+/* author: https://codepen.io/nocni_sovac/pen/vYGoZpP
+Zarko Rvovic
+ */
+
+ @import url("https://fonts.googleapis.com/css?family=Fira+Mono:400");
+ @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap");
+ 
+ * {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+ }
+ 
+ body {
+   background: radial-gradient(circle, #131111 0%, black 17%, black 27%);
+   min-height: 100vh;
+   font-family: "Fira Mono", monospace;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   overflow: auto;
+ }
+ 
+ .cursor {
+   width: 40px;
+   height: 40px;
+   border: 3px solid white;
+   border-radius: 50%;
+   position: absolute;
+   box-shadow: 2px -3px 41px -1px rgba(250, 250, 250, 0.64);
+   pointer-events: none;
+ }
+ 
+ /* Side Menu */
+ .side-menu {
+   width: 200px;
+   height: 100vh;
+   position: absolute;
+   right: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+ 
+ .side-menu #menuBtn {
+   position: absolute;
+   top: 25px;
+   right: 25px;
+   cursor: pointer;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   z-index: 99;
+ }
+ 
+ .side-menu #menuBtn input {
+   display: block;
+   cursor: pointer;
+   position: absolute;
+   height: 100%;
+   width: 100%;
+   opacity: 0;
+   z-index: 9;
+   top: 10px;
+ }
+ 
+ .side-menu #menuBtn input:checked ~ span:nth-child(2) {
+   transform-style: preserve-3d;
+   animation: rotation 1s linear infinite;
+ }
+ 
+ @keyframes rotation {
+   0% {
+     transform: rotateX(0deg);
+   }
+   50% {
+     transform: rotateX(180deg);
+   }
+   100% {
+     transform: rotateZ(180deg);
+   }
+ }
+ 
+ .side-menu #menuBtn input:checked ~ span:nth-child(3) {
+   width: 21px;
+   height: 1px;
+   transform: rotate(90deg);
+ }
+ 
+ .side-menu #menuBtn span {
+   position: relative;
+   display: block;
+   margin: 4px 0;
+   border-radius: 2px;
+   transition: all 0.2s linear;
+ }
+ 
+ .side-menu #menuBtn span:nth-child(2) {
+   transform-style: preserve-3d;
+   width: 35px;
+   height: 35px;
+   border: 1px solid white;
+   border-radius: 100%;
+ }
+ 
+ .side-menu #menuBtn span:nth-child(3) {
+   width: 3px;
+   height: 3px;
+   background: white;
+   margin-top: -23px;
+ }
+ 
+ .side-menu .menu {
+   text-align: center;
+   display: none;
+   height: 100%;
+   background-color: #000000;
+ }
+ 
+ .side-menu .menu a {
+   display: block;
+   color: white;
+   text-decoration: none;
+   margin: 25px 0;
+   font-size: 23px;
+ }
+ 
+ .side-menu .straight-line {
+   margin: 35px 0;
+   height: 2px;
+   border: 0;
+   background: linear-gradient(to right, #000000 0%, #dffff4 40%, #c1ffea 60%, #000000 100%);
+   width: 0vh;
+   left: 5%;
+   position: relative;
+   transform: translateX(-50%) rotate(90deg);
+   position: absolute;
+ }
+ 
+ /* Main text */
+ .mainText {
+   width: 50%;
+   margin-left: -430px;
+   margin-top: 74px;
+ }
+ 
+ .mainText .mainTitle {
+   text-transform: uppercase;
+   color: #fff;
+   font-size: 60px;
+   position: relative;
+   letter-spacing: 10px;
+   font-family: "Poppins", sans-serif;
+   -webkit-text-stroke: 2px #ffffff;
+   text-stroke: 2px #ffffff;
+   -webkit-text-fill-color: transparent;
+   text-fill-color: transparent;
+   color: transparent;
+   transition: all 0.4s linear;
+   opacity: 0.5;
+   user-select: none;
+ }
+ 
+ .mainText .mainTitle:hover {
+   opacity: 1;
+   -webkit-text-fill-color: white;
+   text-fill-color: white;
+ }
+ 
+ .mainText .mainTitle:hover ~ .cursor {
+   transform: scale(1.4);
+   mix-blend-mode: difference;
+   background: white;
+ }
+ 
+ .mainText .subTitle {
+   text-transform: uppercase;
+   color: #fff;
+   font-size: 20px;
+   position: relative;
+ }
+ 
+ /* Planet floating animation */
+ .planetImg {
+   transform: scale(0.7) rotate(158deg);
+   position: absolute;
+   top: -5%;
+   right: 13%;
+   animation: float 12s ease-in-out infinite;
+ }
+ 
+ @keyframes float {
+   0% {
+     box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+     transform: translatey(0px) translatex(5px) scale(0.7) rotate(156deg);
+   }
+   50% {
+     box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2);
+     transform: translatey(-20px) translatex(-5px) scale(0.7) rotate(162deg);
+   }
+   100% {
+     box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+     transform: translatey(0px) translatex(5px) scale(0.7) rotate(156deg);
+   }
+ }
+ 
+ .explosion {
+   width: 30px;
+   height: 30px;
+   border-radius: 50%;
+   position: absolute;
+   transition-duration: 10ms;
+   transition-timing-function: ease-out;
+   animation: meniItemClick 0.3s;
+ }
+ 
+ @keyframes meniItemClick {
+   0% {
+     transform: scale(0.3);
+     box-shadow: 0 0 0px 0px #9ab3f5;
+   }
+   70% {
+     transform: scale(1);
+     opacity: 0.7;
+     box-shadow: 0 0 10px 8px #9ab3f5;
+   }
+   100% {
+     transform: scale(2);
+     opacity: 0;
+     box-shadow: 0 0 0px 0px #9ab3f5;
+   }
+ }
+ 
+ #WebGL-output {
+   width: 100%;
+   height: 100%;
+   position: absolute;
+ }
+ 
+ /* Container */
+ .container {
+   color: #fff;
+   width: 100%;
+   max-width: 1200px;
+   margin: 0 auto;
+ }
+ 
+ /* Profile cards */
+ .team {
+   display: flex;
+   justify-content: space-around;
+   gap: 20px;
+ }
+ 
+ .profile-card {
+   background-color: white;
+   width: 100%;
+   max-width: 300px;
+   border-radius: 15px;
+   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+   overflow: hidden;
+   transition: transform 0.3s, box-shadow 0.3s;
+   text-align: center;
+ }
+ 
+ .profile-card:hover {
+   transform: scale(1.08);
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+ }
+ 
+ .profile-card img {
+   width: 120px;
+   height: 120px;
+   border-radius: 50%;
+   margin-top: -60px;
+   border: 5px solid white;
+ }
+ 
+ /* Different banner colors for each profile */
+ .bannerTeo {
+   height: 100px;
+   background-color: #EE7418;
+ }
+ 
+ .bannerMartin {
+   height: 100px;
+   background-color: #00B3D8;
+ }
+ 
+ .bannerMathiss {
+   height: 100px;
+   background-color: #E71B48;
+ }
+ 
+ .bannerAlexandre {
+   height: 100px;
+   background-color: #FFCF15;
+ }
+ 
+ .info {
+   padding: 15px 20px;
+ }
+ 
+ .info h2 {
+   margin: 15px 0 5px;
+   font-size: 1.6em;
+   color: #333;
+ }
+ 
+ .info p {
+   font-size: 1em;
+   color: #555;
+ }
+ 
+ /* Responsive Design */
+ @media (max-width: 768px) {
+   .team {
+     flex-direction: column;
+     align-items: center;
+   }
+ 
+   .profile-card {
+     width: 90%;
+     margin-bottom: 20px;
+   }
+ 
+   .mainText .mainTitle {
+     font-size: 2.5rem;
+   }
+ 
+   .mainText .subTitle {
+     font-size: 1rem;
+   }
+ 
+   form h2 {
+     font-size: 1.5rem;
+   }
+ 
+   button {
+     padding: 10px;
+   }
+ }
+ 
+ @media (min-width: 769px) and (max-width: 1024px) {
+   .team {
+     justify-content: space-between;
+   }
+ 
+   .profile-card {
+     width: 45%;
+   }
+ 
+   .mainText .mainTitle {
+     font-size: 3rem;
+   }
+ }
+ 
+ /* Login form */
+ .maincontainer {
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(7px);
+  border-radius: 8px;
+  display: grid;
+  position: absolute;
+  top: 50%;
+  right: 20%; /* Place le formulaire à 5% du bord droit */
+  transform: translateY(-50%); /* Centre verticalement le formulaire */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form h2 {
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.input-field {
+  position: relative;
+  border-bottom: 2px solid #ccc;
+  margin: 15px 0;
+}
+
+.input-field input {
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.input-field label {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: 0.3s ease-in;
+}
+
+.input-field input:focus ~ label,
+.input-field input:valid ~ label {
+  transform: translateY(-120%);
+  font-size: 0.8rem;
+  top: 10px;
+}
+
+.password-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 25px 0 35px 0;
+  color: #fff;
+}
+
+.password-options label {
+  display: flex;
+  align-items: center;
+}
+
+#remember {
+  accent-color: #fff;
+}
+
+.password-options label p {
+  margin-left: 8px;
+}
+
+.maincontainer a {
+  color: #efefef;
+  text-decoration: none;
+}
+
+.maincontainer a:hover {
+  text-decoration: underline;
+}
+
+button {
+  background-color: #fff;
+  color: #000;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 3px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #fff;
+  color: #fff;
+}
+
+.account-options {
+  text-align: center;
+  margin-top: 30px;
+  color: #fff;
+}
+
+
+.input-field select {
+  width: 100%;
+  height: 40px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 1rem;
+  appearance: none; /* Masque le style par défaut du select */
+  -webkit-appearance: none; /* Pour les navigateurs WebKit */
+  -moz-appearance: none; /* Pour Firefox */
+  padding-right: 20px; /* Donne de l'espace à la flèche */
+  background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D%22http%3A//www.w3.org/2000/svg%22 width%3D%2210%22 height%3D%2210%22 viewBox%3D%220 0 10 10%22%3E%3Cpath fill%3D%22%23ffffff%22 d%3D%22M0 0l5 5 5-5z%22/%3E%3C/svg%3E'); /* Flèche personnalisée */
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 10px 10px;
+}
+
+.input-field {
+  position: relative;
+  border-bottom: 2px solid #ccc;
+  margin: 15px 0;
+}
+
+.input-field:before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+}
+
+.input-field select:focus {
+  border-bottom: 2px solid #fff; /* Changement de la couleur de la bordure en mode focus */
+}
+
