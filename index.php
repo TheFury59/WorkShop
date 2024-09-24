@@ -43,9 +43,8 @@
       </div>
       <div class="cursor"></div>
     </div>
-    <?php
     <div class="maincontainer">
-      <form action="">
+      <form action="include/connection.php" method='post'>
           <h2>Se Connecter</h2>
           <div class="input-field">
               <input type="text" name="mail" id="mail" required>
@@ -65,13 +64,12 @@
 
           <a href="#">Mot de passe oublié</a></br>
 
-          <button type="submit">Connexion</button>
+          <button type="submit" name='connection'>Connexion</button>
 
           <div class="account-options">
               <p>Vous n'avez pas de compte ? <a href="#"></br></br>Crée un compte</a></p>
           </div>
       </form>
   </div>
-  ?>
 </body>
 </html>
