@@ -64,7 +64,7 @@
 
           <a href="#">Mot de passe oublié</a></br>
 
-          <button type="submit" name="connection">Connexion</button>
+          <button type="submit" id="connection">Connexion</button>
 
           <div class="account-options">
               <p>Vous n'avez pas de compte ? <a href="page/register.php"></br></br>Crée un compte</a></p>
