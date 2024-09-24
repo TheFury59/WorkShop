@@ -101,6 +101,7 @@ body {
 .side-menu .menu {
   text-align: center;
   display: none;
+  height: 100%;
   background-color: #000000;
 }
 .side-menu .menu a {
