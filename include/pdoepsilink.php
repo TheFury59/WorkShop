@@ -1,10 +1,10 @@
 <?php
 
 class PdoEpsiLink{   		
-      	private static $serveur='mysql:host=localhost';
-      	private static $bdd='dbname=epsilink';   		
-      	private static $user='root' ;    		
-      	private static $mdp='' ;	
+    private static $serveur='mysql:host=localhost';
+    private static $bdd='dbname=epsilink';   		
+    private static $user='root' ;    		
+    private static $mdp='' ;	
 	private static $monPdo;
 	private static $monPdoEpsiLink=null;
 		
@@ -44,18 +44,12 @@ return $user;
 
 
     public function tailleChampsMail(){
-        
-
-        
         $pdoStatement = PdoEpsiLink::$monPdo->prepare("SELECT CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE table_name = 'utilisateur' AND COLUMN_NAME = 'mail'");
+        WHERE table_name = 'utilisateur' AND COLUMN_NAME = 'mail'");
         $execution = $pdoStatement->execute();
-    $leResultat = $pdoStatement->fetch();
-        
+        $leResultat = $pdoStatement->fetch();
+            
         return $leResultat[0];
-        
-        
-        
     }
 
 
