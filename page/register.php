@@ -6,8 +6,8 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"></script>
     <script defer src="https:////cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js"></script>
-    <script defer src="js/main.js"></script>
-    <link rel="stylesheet" href="style/style.css">
+    <script defer src="../js/main.js"></script>
+    <link rel="stylesheet" href="../style/style.css">
     <title>WorkShop</title>
 </head>
 <body>
@@ -21,7 +21,7 @@
         <span></span>
       </div>
       <div class="menu"></br></br></br></br></br></br></br></br>
-        <a class="menu-item" href="index.php">ACCUEIL</a>
+        <a class="menu-item" href="../index.php">ACCUEIL</a>
         <a class="menu-item" href="page/equipe.html">L'EQUIPE</a>
         <a class="menu-item" href="page/epsilink.html">EPSILINK</a>
         <a class="menu-item" href="page/workshop.html">WORKSHOP CONCEPTION</a>
@@ -30,13 +30,13 @@
       <div class="straight-line"></div>
     </div>
     
-    <img class="planetImg" src="img/Epsi.png" />
+    <img class="planetImg" src="../img/Epsi.png" />
 
     <!--https://assets.codepen.io/1651485/planet.png-->
     
     <div class="mainText">
       <div class="mainTitle">
-        Bienvenue Sur EPSILINK
+        Crée un compte EPSILINK
       </div>
       <div class="subTitle">
         By M.Beaucheron, T.Debay, A.Flament, M.Bouchez
@@ -44,9 +44,20 @@
       <div class="cursor"></div>
     </div>
     <div class="maincontainer">
-
-      <form action="include/connection.php" method='post'>
-          <h2>Se Connecter</h2>
+      <form action="../include/register.php" method="get">
+          <h2>Crée un Compte</h2>
+          <div class="input-field">
+              <input type="text" name="nom" id="nom" required>
+              <label for="nom">Nom</label>
+          </div>
+          <div class="input-field">
+              <input type="text" name="Prenom" id="Prenom" required>
+              <label for="Prenom">Prénom</label>
+          </div>
+          <div class="input-field">
+              <input type="text" name="tel" id="tel" required>
+              <label for="tel">Téléphone</label>
+          </div>
           <div class="input-field">
               <input type="text" name="mail" id="mail" required>
               <label for="mail">E-mail</label>
@@ -56,20 +67,7 @@
               <label for="password">Mot de passe</label>
           </div>
 
-          <div class="password-options">
-              <label for="remember">
-                  <input type="checkbox" id="remember">
-                  <p>Se Souvenir de moi</p>
-              </label>
-          </div>
-
-          <a href="#">Mot de passe oublié</a></br>
-
-          <button type="submit" id="connection">Connexion</button>
-
-          <div class="account-options">
-              <p>Vous n'avez pas de compte ? <a href="page/register.php"></br></br>Crée un compte</a></p>
-          </div>
+          <button type="submit">Crée mon compte</button>
       </form>
   </div>
 </body>
