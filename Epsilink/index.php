@@ -14,22 +14,6 @@
     <div id="WebGL-output">
     </div>
     
-    <div class="side-menu">
-      <div id="menuBtn">
-        <input type="checkbox" />
-        <span></span>
-        <span></span>
-      </div>
-      <div class="menu"></br></br></br></br></br></br></br></br>
-        <a class="menu-item" href="index.php">ACCUEIL</a>
-        <a class="menu-item" href="page/equipe.html">L'EQUIPE</a>
-        <a class="menu-item" href="page/epsilink.html">EPSILINK</a>
-        <a class="menu-item" href="page/workshop.html">WORKSHOP CONCEPTION</a>
-        <a class="menu-item" href="page/ect.html">ETC..</a>
-      </div>
-      <div class="straight-line"></div>
-    </div>
-    
     <img class="planetImg" src="img/Epsi.png" />
 
     <!--https://assets.codepen.io/1651485/planet.png-->

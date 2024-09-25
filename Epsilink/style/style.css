@@ -511,3 +511,166 @@ button:hover {
   border-bottom: 2px solid #fff; /* Changement de la couleur de la bordure en mode focus */
 }
 
+.feed, .my-posts {
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  max-width: 500px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+
+/* Containers */
+.container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Header Style */
+h1 {
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #e1e1e1;
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 24px;
+  color: #e1e1e1;
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+
+/* Form Styles */
+form {
+  margin: 20px 0;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+input[type="text"], input[type="password"], textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 10px 0;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 16px;
+}
+
+input[type="text"]::placeholder, input[type="password"]::placeholder, textarea::placeholder {
+  color: #bbb;
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 15px;
+  background-color: #ff5722;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #ff784e;
+}
+
+/* Cards and Feed */
+.feed, .my-posts {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.feed h2, .my-posts h2 {
+  color: #ff5722;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.post {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.post h3 {
+  color: #ff5722;
+  margin-bottom: 5px;
+}
+
+.post small {
+  color: #aaa;
+}
+
+.post p {
+  font-size: 16px;
+  color: #ddd;
+}
+
+/* Buttons for Actions */
+.post a {
+  color: #ff5722;
+  text-decoration: none;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.post a:hover {
+  color: #ff784e;
+}
+
+/* Profile Picture */
+.profile-header img {
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  border: 5px solid #ff5722;
+}
+
+.profile-info h1, .profile-info p {
+  color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+      width: 90%;
+  }
+
+  .side-menu {
+      width: 60px;
+  }
+
+  .side-menu .menu-item {
+      padding: 10px;
+      font-size: 14px;
+  }
+}
