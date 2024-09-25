@@ -511,7 +511,7 @@ button:hover {
   border-bottom: 2px solid #fff; /* Changement de la couleur de la bordure en mode focus */
 }
 
-.feed, .my-posts {
+.feed, .my-posts, .post {
   margin: 20px auto;
   padding: 20px;
   background: white;

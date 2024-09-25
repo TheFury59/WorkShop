@@ -45,6 +45,31 @@ $result = $conn->query($sql);
         <div class="straight-line"></div>
     </div>
     <h1>Bienvenue sur EpsiLink, <?= $_SESSION['nomUser'] ?></h1>
+
+    <div class="post">
+    <form method="POST">
+        <textarea name="contenuPost" rows="1" placeholder="Créer une nouvelle publication"></textarea>
+        <button type="submit">Publier</button>
+    </form>
+    <?php
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $contenuPost = $_POST['contenuPost'];
+            $idUser = $_SESSION['idUser'];
+
+            $sql = "INSERT INTO publication (idUser, contenuPost) VALUES (?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("is", $idUser, $contenuPost);
+
+            if ($stmt->execute()) {
+                header('Location: ../page/home.php');
+                exit();
+            }
+            else {
+                echo "Erreur lors de la publication.";
+            }
+        }
+    ?>
+    </div>
     <div class="feed">
         <h2>Fil d'actualité</h2>
         <?php while ($post = $result->fetch_assoc()) { ?>

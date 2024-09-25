@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Veuillez remplir tous les champs.");
     }
 
-    require 'bd.php'; // fichier de connexion à la base de données
+    require 'bd.php'; 
 
     // Hashage du mot de passe avant de l'insérer dans la base de données
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
