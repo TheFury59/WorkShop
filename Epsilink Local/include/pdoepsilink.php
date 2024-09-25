@@ -25,7 +25,7 @@ class PdoEpsiLink{
 		return PdoEpsiLink::$monPdoEpsiLink;  
 	}
 
-function checkUser($login,$pwd):bool {
+    public function checkUser($login,$pwd):bool {
     $user=false;
     $pdo = PdoEpsiLink::$monPdo;
     $monObjPdoStatement=$pdo->prepare("SELECT mdpUser, idPrivilege FROM utilisateur WHERE mailUser= :login"); // requete
@@ -39,7 +39,7 @@ function checkUser($login,$pwd):bool {
     }
     else
         throw new Exception("erreur dans la requête");
-return $user;   
+    return $user;   
 }
 
 
@@ -59,10 +59,6 @@ return $user;
         $pdoStatement = PdoEpsiLink::$monPdo->prepare("INSERT INTO utilisateur(idUser,nomUser,prenomUser, mailUser, mdpUser, tel) VALUES (null, :nom,:prenom,:leMail, :leMdp,)");
         $data = array('nom'=>$nom,'prenom'=>$prenom,'leMail'=>$email,'leMdp'=>$mdp); // datas
         $execution = $pdoStatement->execute($data);
-        if($execution){
-            $created = $this->donneLeUserParMail($email); // recupère l'utilisateur créé
-            $this->creeMedecin($created['idUser']); // crée un espace medecin pour l'utilisateur
-        }
         return $execution;
     }
 
@@ -94,4 +90,22 @@ return $user;
         
         return $mailTrouve; // retourne la valeur
     }
+    
+function donneLeUserParMail($login) {
+    
+    $pdo = PdoEpsiLink::$monPdo;
+    $monObjPdoStatement=$pdo->prepare("SELECT idUser, nom, prenom,mail,idRole FROM utilisateur WHERE mail= :login;");
+    $bvc1=$monObjPdoStatement->bindValue(':login',$login,PDO::PARAM_STR);
+    if ($monObjPdoStatement->execute()) {
+        $unUser=$monObjPdoStatement->fetch();
+        if(!is_array($unUser)){
+            throw new Exception("L\'adresse saisie ne corespond à aucun utilisateur.");}
+    }
+    else
+        throw new Exception("erreur dans la requÃªte");
+    return $unUser;   
 }
+
+
+}
+?>

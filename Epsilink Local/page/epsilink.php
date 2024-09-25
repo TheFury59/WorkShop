@@ -32,6 +32,11 @@
     <div class="container">
         <h1>EPSILINK</h1>
         <p>Bienvenue Sur EpsiLink</p>
+
+        <div class="input-field">
+            <input type="text" name="nouveauMessage" id="nouveauMessage">
+            <label for="newMessage">Créer une publication</label>
+        </div>
     </div>
 </body>
 </html>

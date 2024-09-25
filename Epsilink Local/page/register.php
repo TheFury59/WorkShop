@@ -13,7 +13,6 @@
 <body>
     <div id="WebGL-output">
     </div>
-    
     <div class="side-menu">
       <div id="menuBtn">
         <input type="checkbox" />
@@ -59,8 +58,8 @@
                 <select id="campus" name="campus" required>
                     <option value=""></option>
                     <?php
-                    include('campus.php');
-                     echo $campusOptions; // Affiche les options des campus récupérés 
+                    include('include/campus.php');
+                     echo "arras"; // Affiche les options des campus récupérés 
                      ?>
                 </select>
                 <label for="campus">Sélectionner un campus :</label>
