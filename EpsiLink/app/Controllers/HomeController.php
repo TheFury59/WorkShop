@@ -6,45 +6,45 @@ use Slim\Views\Twig;
 
 class HomeController
 {
-    // Méthode pour la page d'accueil
-    public function index($request, $response, $args)
+    // Page d'accueil
+    public function showHome($request, $response, $args)
     {
         $view = Twig::fromRequest($request);
-        return $view->render($response, 'home.twig'); // Rend la vue home.twig
+        return $view->render($response, 'home.twig');
     }
 
-    // Méthode pour la page équipe
+    // Page équipe
     public function showEquipe($request, $response, $args)
     {
         $view = Twig::fromRequest($request);
-        return $view->render($response, 'equipe.twig'); // Rend la vue equipe.twig
+        return $view->render($response, 'equipe.twig');
     }
 
-    // Méthode pour la page Workshop
+    // Page Workshop
     public function showWorkshop($request, $response, $args)
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'workshop.twig');
     }
 
-    // Méthode pour la page EpsiLink
+    // Page EpsiLink
     public function showEpsiLink($request, $response, $args)
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'epsilink.twig');
     }
 
-    // Méthode pour la page ECT
+    // Page ECT
     public function showEct($request, $response, $args)
     {
         $view = Twig::fromRequest($request);
         return $view->render($response, 'ect.twig');
     }
-    
-    // Nouvelle méthode pour rendre la page d'accueil (selon ton dernier code fourni)
-    public function showHome($request, $response, $args)
+
+    // Page d'enregistrement
+    public function showRegister($request, $response, $args)
     {
         $view = Twig::fromRequest($request);
-        return $view->render($response, 'home.twig'); // Rend la vue home.twig avec le code HTML que tu m'as fourni
+        return $view->render($response, 'register.twig');
     }
 }
