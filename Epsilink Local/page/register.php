@@ -55,16 +55,17 @@
               <label for="Prenom">Prénom</label>
           </div>
 
-           <div class="input-field">
-                <select id="campus" name="campus" required>
-                    <option value=""></option>
-                    <?php
-                    include('campus.php');
-                     echo $campusOptions; // Affiche les options des campus récupérés 
-                     ?>
-                </select>
-                <label for="campus">Sélectionner un campus :</label>
-            </div>
+          <div class="input-field">
+              <label for="campus">Sélectionner un campus :</label>
+              <select id="campus" name="campus" required>
+                  <option value=""></option>
+                  <?php
+                  // Inclusion du fichier qui contient la logique de récupération des campus
+                  include('../include/campus.php');
+                  echo $campusOptions; // Affiche les options générées
+                  ?>
+              </select>
+          </div>
 
           <div class="input-field">
               <input type="text" name="tel" id="tel" required>
