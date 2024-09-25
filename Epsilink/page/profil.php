@@ -44,11 +44,10 @@ $posts = $stmt->get_result();
             <span></span>
         </div>
         <div class="menu"></br></br></br></br></br></br></br></br>
-            <a class="menu-item" href="../index.php">ACCUEIL</a>
-            <a class="menu-item" href="/equipe.html">L'EQUIPE</a>
-            <a class="menu-item" href="/home.php">EPSILINK</a>
-            <a class="menu-item" href="/profil.php">MON PROFIL</a>
-            <a class="menu-item" href="/post.php">PUBLIE</a>
+            <a class="menu-item" href="../page/equipe.html">L'EQUIPE</a>
+            <a class="menu-item" href="../page/home.php">EPSILINK</a>
+            <a class="menu-item" href="../page/profil.php">MON PROFIL</a>
+            <a class="menu-item" href="../page/post.php">PUBLIE</a>
             <a class="menu-item" href="../include/logout.php">DECONNECTION</a>
         </div>
         <div class="straight-line"></div>

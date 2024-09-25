@@ -8,8 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail = isset($_POST['mail']) ? htmlspecialchars($_POST['mail']) : '';
     $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '';
 
-    require 'bd.php';
-    
+    require 'bd.php'; // fichier de connexion à la base de données
+
     // Préparer la requête pour récupérer les informations de l'utilisateur par email
     $sql = "SELECT idUser, nomUser, prenomUser, mdpUser FROM utilisateur WHERE mailUser = ?";
     $stmt = $conn->prepare($sql);
