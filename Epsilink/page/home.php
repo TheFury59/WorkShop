@@ -47,6 +47,10 @@ $result = $conn->query($sql);
     <h1>Bienvenue sur EpsiLink, <?= $_SESSION['nomUser'] ?></h1>
 
     <div class="post">
+    <form method="POST">
+        <textarea name="contenuPost" rows="1" placeholder="Créer une nouvelle publication"></textarea>
+        <button type="submit">Publier</button>
+    </form>
     <?php
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $contenuPost = $_POST['contenuPost'];
