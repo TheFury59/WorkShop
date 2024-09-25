@@ -53,11 +53,11 @@ class PdoEpsiLink{
     }
 
 
-    public function creeUser($email, $mdp, $nom, $prenom) // crée un utilisateur et son espace medecin
+    public function creeUser($email, $mdp, $nom, $prenom, $tel) // crée un utilisateur et son espace medecin
     {
         $mdp = password_hash($mdp,PASSWORD_DEFAULT); // hash le mdp
-        $pdoStatement = PdoEpsiLink::$monPdo->prepare("INSERT INTO utilisateur(idUser,nomUser,prenomUser, mailUser, mdpUser, tel) VALUES (null, :nom,:prenom,:leMail, :leMdp,)");
-        $data = array('nom'=>$nom,'prenom'=>$prenom,'leMail'=>$email,'leMdp'=>$mdp); // datas
+        $pdoStatement = PdoEpsiLink::$monPdo->prepare("INSERT INTO utilisateur(idUser,nomUser,prenomUser, mailUser, mdpUser, tel) VALUES (null, :nom,:prenom,:leMail, :leMdp,:leTel)");
+        $data = array('nom'=>$nom,'prenom'=>$prenom,'leMail'=>$email,'leMdp'=>$mdp,'leTel'=>$tel); // datas
         $execution = $pdoStatement->execute($data);
         return $execution;
     }

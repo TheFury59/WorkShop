@@ -43,7 +43,7 @@
       <div class="cursor"></div>
     </div>
     <div class="maincontainer">
-      <form action="../include/register.php" method="get">
+      <form action="../include/register.php" method="post">
           <h2>Crée un Compte</h2>
           <div class="input-field">
               <input type="text" name="nom" id="nom" required>
