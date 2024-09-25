@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username = "root";
-$password = "";
+$username = "teo";
+$password = "teo62";
 $dbname = "epsilink";
 
 // Créer la connexion

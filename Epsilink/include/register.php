@@ -14,19 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Veuillez remplir tous les champs.");
     }
 
-    // Connexion à la base de données
-    $servername = "localhost";
-    $username = "root";
-    $password_db = ""; // Remplacer par le mot de passe de la base de données
-    $dbname = "epsilink";
-
-    // Créer la connexion
-    $conn = new mysqli($servername, $username, $password_db, $dbname);
-
-    // Vérifier la connexion
-    if ($conn->connect_error) {
-        die("Échec de la connexion : " . $conn->connect_error);
-    }
+    require 'bd.php'; // fichier de connexion à la base de données
 
     // Hashage du mot de passe avant de l'insérer dans la base de données
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
