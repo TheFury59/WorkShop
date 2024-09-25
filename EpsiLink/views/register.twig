@@ -1,0 +1,51 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Crée un Compte{% endblock %}
+
+{% block content %}
+
+<img class="planetImg" src="/img/Epsi.png" alt="Epsi Planet Image"/>
+
+<div class="mainText">
+    <div class="mainTitle">Crée un compte EPSILINK</div>
+    <div class="subTitle">By M.Beaucheron, T.Debay, A.Flament, M.Bouchez</div>
+    <div class="cursor"></div>
+</div>
+
+<div class="maincontainer">
+    <form action="/include/register.php" method="post">
+        <h2>Crée un Compte</h2>
+        <div class="input-field">
+            <input type="text" name="nom" id="nom" required>
+            <label for="nom">Nom</label>
+        </div>
+        <div class="input-field">
+            <input type="text" name="Prenom" id="Prenom" required>
+            <label for="Prenom">Prénom</label>
+        </div>
+
+        <div class="input-field">
+            <select id="campus" name="campus" required>
+                <option value=""></option>
+                {{ campusOptions|raw }}
+            </select>
+            <label for="campus">Sélectionner un campus :</label>
+        </div>
+
+        <div class="input-field">
+            <input type="text" name="tel" id="tel" required>
+            <label for="tel">Téléphone</label>
+        </div>
+        <div class="input-field">
+            <input type="text" name="mail" id="mail" required>
+            <label for="mail">E-mail</label>
+        </div>
+        <div class="input-field">
+            <input type="password" name="password" id="password" required>
+            <label for="password">Mot de passe</label>
+        </div>
+
+        <button class="btnEnvoie" type="submit">Crée mon compte</button>
+    </form>
+</div>
+{% endblock %}

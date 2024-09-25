@@ -22,10 +22,10 @@
       </div>
       <div class="menu"></br></br></br></br></br></br></br></br>
         <a class="menu-item" href="../index.php">ACCUEIL</a>
-        <a class="menu-item" href="page/equipe.html">L'EQUIPE</a>
-        <a class="menu-item" href="page/epsilink.html">EPSILINK</a>
-        <a class="menu-item" href="page/workshop.html">WORKSHOP CONCEPTION</a>
-        <a class="menu-item" href="page/ect.html">ETC..</a>
+        <a class="menu-item" href="equipe.html">L'EQUIPE</a>
+        <a class="menu-item" href="epsilink.html">EPSILINK</a>
+        <a class="menu-item" href="workshop.html">WORKSHOP CONCEPTION</a>
+        <a class="menu-item" href="ect.html">ETC..</a>
       </div>
       <div class="straight-line"></div>
     </div>

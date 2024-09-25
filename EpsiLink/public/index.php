@@ -25,6 +25,7 @@ $app->get('/equipe', [\App\Controllers\HomeController::class, 'showEquipe']);
 $app->get('/workshop', [\App\Controllers\HomeController::class, 'showWorkshop']);
 $app->get('/epsilink', [\App\Controllers\HomeController::class, 'showEpsiLink']);
 $app->get('/ect', [\App\Controllers\HomeController::class, 'showEct']);
+$app->get('/register', [\App\Controllers\HomeController::class, 'showRegister']);
 
 // Lancer l'application
 $app->run();

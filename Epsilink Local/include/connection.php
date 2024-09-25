@@ -1,5 +1,5 @@
 <?php
-    require_once('pdoepsilink.php');
+    include('pdoepsilink.php');
     session_start();
     
     // $_POST['connection'];
@@ -8,4 +8,5 @@
     // echo $mail;
     // echo $mdp;
     checkUser($mail,$mdp);
+    
 ?>
