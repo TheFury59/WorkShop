@@ -8,20 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mail = isset($_POST['mail']) ? htmlspecialchars($_POST['mail']) : '';
     $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '';
 
-    // Connexion à la base de données
-    $servername = "localhost";
-    $username = "root";
-    $password_db = ""; // Remplacer par le mot de passe de la base de données
-    $dbname = "epsilink";
-
-    // Créer la connexion
-    $conn = new mysqli($servername, $username, $password_db, $dbname);
-
-    // Vérifier la connexion
-    if ($conn->connect_error) {
-        die("Échec de la connexion : " . $conn->connect_error);
-    }
-
+    require 'bd.php';
+    
     // Préparer la requête pour récupérer les informations de l'utilisateur par email
     $sql = "SELECT idUser, nomUser, prenomUser, mdpUser FROM utilisateur WHERE mailUser = ?";
     $stmt = $conn->prepare($sql);
