@@ -77,8 +77,9 @@ $result = $conn->query($sql);
                 <h3><?= $post['nomUser'] . " " . $post['prenomUser'] ?></h3>
                 <p><?= $post['contenuPost'] ?></p>
                 <small>Posté le : <?= $post['dateCreation'] ?></small>
-                <a href="like.php?id=<?= $post['idPost'] ?>">Aimer</a> | 
+                <a href="../include/like.php?id=<?= $post['idPost'] ?>">Aimer</a> | 
                 <a href="comment.php?id=<?= $post['idPost'] ?>">Commenter</a>
+                <a href="seeComment.php?id=<?= $post['idPost'] ?>">Voir les commentaires</a>
             </div>
         <?php } ?>
     </div>

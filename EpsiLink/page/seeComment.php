@@ -22,7 +22,7 @@ if (isset($_GET['id'])) {
         $stmt->bind_param("iis", $idUser, $idPost, $contenuCommentaire);
 
         if ($stmt->execute()) {
-            header('Location: seeComment.php');
+            header('Location: ../page/home.php');
             exit();
         } else {
             echo "Erreur lors de l'ajout du commentaire.";
@@ -38,7 +38,7 @@ if (isset($_GET['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Commenter</title>
+    <title>Commentaires</title>
     <link rel="stylesheet" href="../style/style.css">
 </head>
 <body>
@@ -58,12 +58,34 @@ if (isset($_GET['id'])) {
         </div>
         <div class="straight-line"></div>
     </div>
+    <?php
 
-    <h1>Ajouter un commentaire</h1>
+    if (isset($_GET['id'])) {
+        $idPost = intval($_GET['id']);
+        $idUser = $_SESSION['idUser'];
+    }
 
-    <form method="POST">
-        <textarea name="contenuCommentaire" rows="5" placeholder="Votre commentaire..." required></textarea>
-        <button type="submit">Commenter</button>
-    </form>
+
+
+    $sql = "SELECT commentaire.*, utilisateur.nomUser, utilisateur.prenomUser 
+    FROM commentaire 
+    JOIN utilisateur ON commentaire.idUser = utilisateur.idUser 
+    WHERE idComment = $idPost
+    ORDER BY publication.dateCreation DESC";
+    // $stmt = $conn->prepare($sql);
+    // $stmt->bind_param("id",$idPost);
+    $result = $conn->query($stmt);
+
+?>
+    <div class="feed">
+        <h2>Fil d'actualité</h2>
+        <?php while ($post = $result->fetch_assoc()) { ?>
+            <div class="post">
+                <h3><?= $post['nomUser'] . " " . $post['prenomUser'] ?></h3>
+                <p><?= $post['contenuComment'] ?></p>
+                <small>Posté le : <?= $post['dateCreation'] ?></small>
+            </div>
+        <?php } ?>
+    </div>
 </body>
 </html>

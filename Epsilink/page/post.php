@@ -14,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "INSERT INTO publication (idUser, contenuPost) VALUES (?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("is", $idUser, $contenuPost);
-
     if ($stmt->execute()) {
         header('Location: ../page/home.php');
         exit();
