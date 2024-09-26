@@ -81,9 +81,9 @@ if (isset($_GET['id'])) {
         <h2>Fil d'actualité</h2>
         <?php while ($post = $result->fetch_assoc()) { ?>
             <div class="post">
-                <h3><?= $post['nomUser'] . " " . $post['prenomUser'] ?></h3>
-                <p><?= $post['contenuComment'] ?></p>
-                <small>Posté le : <?= $post['dateCreation'] ?></small>
+                <h3><?php $post['nomUser'] . " " . $post['prenomUser'] ?></h3>
+                <p><?php $post['contenuComment'] ?></p>
+                <small>Posté le : <?php $post['dateCreation'] ?></small>
             </div>
         <?php } ?>
     </div>
