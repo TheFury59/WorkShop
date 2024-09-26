@@ -120,8 +120,121 @@ button.btn-light {
     font-size: 14px;
 }
 
-.collapse navbar-collapse{
-    align-items: right;
+/* Ajout spécifique pour le profil utilisateur */
+.profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #008bb0;
+    color: #fff;
+}
+
+.profile-header img {
+    width: 100px;
+    border-radius: 50%;
+}
+
+.profile-header .info {
+    text-align: left;
+    flex-grow: 1;
+    padding-left: 20px;
+}
+
+.profile-header .info h1 {
+    font-size: 24px;
+}
+
+.profile-header .info p {
+    font-size: 18px;
+}
+
+.profile-content {
+    padding: 20px;
+}
+
+.profile-content .post {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-content .post p {
+    font-size: 16px;
+}
+
+.profile-content .post small {
+    color: #999;
+}
+
+/* Post Page */
+.post-page {
+    padding: 20px;
+}
+
+.post-page textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+.post-page button {
+    padding: 10px 20px;
+    background-color: #008bb0;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Home Page */
+.feed {
+    padding: 20px;
+}
+
+.feed .post {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.feed .post h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.feed .post p {
+    font-size: 16px;
+}
+
+.feed .post small {
+    color: #999;
+}
+
+/* Utility Classes */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    cursor: pointer;
 }
 
 /* Responsive Design */
@@ -138,4 +251,26 @@ button.btn-light {
     .navbar {
         padding: 10px;
     }
+
+    .profile-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-header img {
+        margin-bottom: 15px;
+    }
+
+    .profile-header .info {
+        padding-left: 0;
+    }
+}
+
+/* Image de profil circulaire dans les posts */
+img.rounded-circle {
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* Assurer un effet de cercle */
 }

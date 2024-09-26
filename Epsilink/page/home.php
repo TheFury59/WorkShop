@@ -7,8 +7,8 @@ if (!isset($_SESSION['idUser'])) {
 
 require '../include/bd.php'; // fichier de connexion à la base de données
 
-// Récupérer les publications de tous les utilisateurs
-$sql = "SELECT publication.*, utilisateur.nomUser, utilisateur.prenomUser 
+// Récupérer les publications de tous les utilisateurs, y compris la photo de profil
+$sql = "SELECT publication.*, utilisateur.nomUser, utilisateur.prenomUser, utilisateur.photoProfil
         FROM publication 
         JOIN utilisateur ON publication.idUser = utilisateur.idUser 
         ORDER BY publication.dateCreation DESC";
@@ -53,18 +53,11 @@ $result = $conn->query($sql);
                     <a class="nav-link" href="../page/profil.php">Mon Compte</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../include/logout.php">Déconection</a>
+                    <a class="nav-link" href="../page/equipe.html">L' Equipe</a>
                 </li>
-                <!--<li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                </li>-->
+                <li class="nav-item">
+                    <a class="nav-link" href="../include/logout.php">Déconnexion</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -116,7 +109,12 @@ $result = $conn->query($sql);
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="d-flex">
-                                    <img src="../img/profile.png" alt="Avatar" class="rounded-circle me-3" width="50">
+                                    <!-- Afficher la photo de profil -->
+                                    <?php if ($post['photoProfil']) : ?>
+                                        <img src="data:image/jpeg;base64,<?= base64_encode($post['photoProfil']) ?>" alt="Avatar" class="rounded-circle me-3" width="50">
+                                    <?php else : ?>
+                                        <img src="../img/default.png" alt="Avatar" class="rounded-circle me-3" width="50">
+                                    <?php endif; ?>
                                     <div>
                                         <h5 class="card-title"><?= $post['nomUser'] . " " . $post['prenomUser'] ?></h5>
                                         <p class="card-text"><?= $post['contenuPost'] ?></p>
