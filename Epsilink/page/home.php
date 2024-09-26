@@ -99,17 +99,6 @@ $user = $resultUser->fetch_assoc();
                                 <input type="file" class="form-control" id="imagePost" name="imagePost">
                             </div>
 
-                            <!-- Sélection du campus -->
-                            <div class="mb-3">
-                                <label for="campusHashtag" class="form-label">Sélectionner le campus (Hashtag)</label>
-                                <select class="form-control" name="campusHashtag" id="campusHashtag" required>
-                                    <option value="#EPSI_Arras">#EPSI_Arras</option>
-                                    <option value="#EPSI_Bordeaux">#EPSI_Bordeaux</option>
-                                    <option value="#EPSI_Lille">#EPSI_Lille</option>
-                                    <option value="#EPSI_Paris">#EPSI_Paris</option>
-                                </select>
-                            </div>
-
                             <div class="d-flex justify-content-between">
                                 <button type="submit" class="btn btn-primary">Publier</button>
                             </div>

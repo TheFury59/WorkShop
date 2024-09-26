@@ -1,25 +1,30 @@
 <?php
 session_start();
-require 'bd.php'; // Connexion à la base de données
+if (!isset($_SESSION['idUser'])) {
+    header('Location: ../index.php');
+    exit();
+}
+
+require '../include/bd.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $contenuPost = $_POST['contenuPost'];
     $idUser = $_SESSION['idUser'];
-    $campusHashtag = $_POST['campusHashtag'];
 
-    // Gestion de l'image (si une image est uploadée)
+    // Gestion de l'image de publication
     $imagePost = null;
     if (isset($_FILES['imagePost']) && $_FILES['imagePost']['error'] == 0) {
         $imagePost = file_get_contents($_FILES['imagePost']['tmp_name']);
     }
 
-    // Préparer la requête SQL avec image et hashtag du campus
-    $sql = "INSERT INTO publication (idUser, contenuPost, imagePost, campusHashtag) VALUES (?, ?, ?, ?)";
+    // Insertion dans la base de données (avec image si présente)
+    $sql = "INSERT INTO publication (idUser, contenuPost, imagePost) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isss", $idUser, $contenuPost, $imagePost, $campusHashtag);
+    $stmt->bind_param("iss", $idUser, $contenuPost, $imagePost);
 
     if ($stmt->execute()) {
-        echo "Publication réussie";
+        header('Location: ../page/home.php');
+        exit();
     } else {
         echo "Erreur lors de la publication.";
     }

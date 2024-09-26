@@ -27,15 +27,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssssi", $nomUser, $prenomUser, $mailUser, $photoProfil, $idUser);
     } else {
-        // Si aucune nouvelle photo n'est fournie, on ne met à jour que les autres informations
         $sql = "UPDATE utilisateur SET nomUser=?, prenomUser=?, mailUser=? WHERE idUser=?";
-        $stmt = $conn->prepare($sql);
         $stmt->bind_param("sssi", $nomUser, $prenomUser, $mailUser, $idUser);
     }
 
     if ($stmt->execute()) {
         header("Location: profil.php");
         exit();
+    }
+}
+
+// Gestion de la suppression de publication
+if (isset($_GET['deletePost'])) {
+    $postId = $_GET['deletePost'];
+    $sqlDelete = "DELETE FROM publication WHERE idPost = ? AND idUser = ?";
+    $stmt = $conn->prepare($sqlDelete);
+    $stmt->bind_param("ii", $postId, $idUser);
+    if ($stmt->execute()) {
+        header("Location: profil.php");
+        exit();
+    } else {
+        echo "Erreur lors de la suppression du post.";
     }
 }
 
@@ -53,43 +65,33 @@ $stmt->bind_param("i", $idUser);
 $stmt->execute();
 $posts = $stmt->get_result();
 
-// Suppression de publication
-if (isset($_GET['deletePost'])) {
-    $postId = $_GET['deletePost'];
-    $sqlDelete = "DELETE FROM publication WHERE idPost = ? AND idUser = ?";
-    $stmt = $conn->prepare($sqlDelete);
-    $stmt->bind_param("ii", $postId, $idUser);
-    $stmt->execute();
-    header("Location: profil.php");
-    exit();
-}
-
-// Modification de publication
+// Gestion de la modification de publication
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['editPost'])) {
     $postId = $_POST['postId'];
     $newContent = $_POST['contenuPost'];
-    $hashtags = $_POST['hashtags'] ?? null;
     $imagePost = null;
 
-    // Gestion de l'image
+    // Gestion de l'image si elle est modifiée
     if (isset($_FILES['imagePost']) && $_FILES['imagePost']['error'] == 0) {
         $imagePost = file_get_contents($_FILES['imagePost']['tmp_name']);
     }
 
-    // Si une image est ajoutée ou non
+    // Mise à jour avec ou sans image
     if ($imagePost) {
-        $sqlUpdatePost = "UPDATE publication SET contenuPost = ?, imagePost = ?, hashtags = ? WHERE idPost = ? AND idUser = ?";
+        $sqlUpdatePost = "UPDATE publication SET contenuPost = ?, imagePost = ? WHERE idPost = ? AND idUser = ?";
         $stmt = $conn->prepare($sqlUpdatePost);
-        $stmt->bind_param("ssssi", $newContent, $imagePost, $hashtags, $postId, $idUser);
+        $stmt->bind_param("sbii", $newContent, $imagePost, $postId, $idUser);
     } else {
-        $sqlUpdatePost = "UPDATE publication SET contenuPost = ?, hashtags = ? WHERE idPost = ? AND idUser = ?";
-        $stmt = $conn->prepare($sqlUpdatePost);
-        $stmt->bind_param("ssii", $newContent, $hashtags, $postId, $idUser);
+        $sqlUpdatePost = "UPDATE publication SET contenuPost = ? WHERE idPost = ? AND idUser = ?";
+        $stmt->bind_param("sii", $newContent, $postId, $idUser);
     }
-    
-    $stmt->execute();
-    header("Location: profil.php");
-    exit();
+
+    if ($stmt->execute()) {
+        header("Location: profil.php");
+        exit();
+    } else {
+        echo "Erreur lors de la mise à jour du post.";
+    }
 }
 ?>
 
@@ -186,11 +188,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['editPost'])) {
                 <div class="post bg-white p-3 mb-3 rounded shadow-sm">
                     <p><?= htmlspecialchars($post['contenuPost']) ?></p>
 
-                    <!-- Affichage des hashtags -->
-                    <?php if ($post['hashtags']) : ?>
-                        <p><strong>Hashtags:</strong> <?= htmlspecialchars($post['hashtags']) ?></p>
-                    <?php endif; ?>
-
                     <!-- Affichage de l'image de la publication -->
                     <?php if ($post['imagePost']) : ?>
                         <img src="data:image/jpeg;base64,<?= base64_encode($post['imagePost']) ?>" class="img-fluid mt-3" alt="Image de publication">
@@ -222,12 +219,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['editPost'])) {
                         <div class="mb-3">
                             <label for="contenuPost" class="form-label">Contenu</label>
                             <textarea name="contenuPost" id="contenuPost" class="form-control" rows="3"><?= htmlspecialchars($editPost['contenuPost']) ?></textarea>
-                        </div>
-
-                        <!-- Modification des hashtags -->
-                        <div class="mb-3">
-                            <label for="hashtags" class="form-label">Hashtags</label>
-                            <input type="text" class="form-control" id="hashtags" name="hashtags" value="<?= htmlspecialchars($editPost['hashtags']) ?>" placeholder="#exemple #hashtag">
                         </div>
 
                         <!-- Modification de l'image -->

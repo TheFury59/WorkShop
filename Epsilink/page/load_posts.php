@@ -2,31 +2,13 @@
 require '../include/bd.php'; // Connexion à la base de données
 
 // Récupérer les publications de tous les utilisateurs
-$sql = "SELECT publication.*, utilisateur.nomUser, utilisateur.prenomUser, utilisateur.photoProfil
+$sql = "SELECT publication.*, utilisateur.nomUser, utilisateur.prenomUser, utilisateur.photoProfil, 
+               (SELECT COUNT(*) FROM like_post WHERE like_post.idPost = publication.idPost) AS likeCount
         FROM publication 
         JOIN utilisateur ON publication.idUser = utilisateur.idUser 
         ORDER BY publication.dateCreation DESC";
 $result = $conn->query($sql);
-?>
 
-<style>
-/* Insertion du CSS directement ici */
-.img-fluid {
-    width: 300px; /* Largeur fixe pour les images carrées */
-    height: 300px; /* Hauteur fixe */
-    object-fit: cover; /* Assurer que l'image reste proportionnelle */
-    border-radius: 0; /* Supprimer les coins arrondis */
-}
-
-.rounded-circle {
-    object-fit: cover;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-</style>
-
-<?php
 while ($post = $result->fetch_assoc()) {
     ?>
     <div class="card mb-3">
@@ -44,24 +26,41 @@ while ($post = $result->fetch_assoc()) {
 
                     <!-- Afficher l'image de la publication si elle existe -->
                     <?php if ($post['imagePost']) : ?>
-                        <img src="data:image/jpeg;base64,<?= base64_encode($post['imagePost']) ?>" class="img-fluid mt-3" alt="Image de publication">
+                        <!-- Lien pour déclencher le modal -->
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal-<?= $post['idPost'] ?>">
+                            <img src="data:image/jpeg;base64,<?= base64_encode($post['imagePost']) ?>" class="img-fluid mt-3" alt="Image de publication">
+                        </a>
+
+                        <!-- Modal pour afficher l'image en taille réelle -->
+                        <div class="modal fade" id="imageModal-<?= $post['idPost'] ?>" tabindex="-1" aria-labelledby="imageModalLabel-<?= $post['idPost'] ?>" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" style="max-width: none;">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="imageModalLabel-<?= $post['idPost'] ?>">Image de publication</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <img src="data:image/jpeg;base64,<?= base64_encode($post['imagePost']) ?>" class="img-modal" id="image-modal-<?= $post['idPost'] ?>" alt="Image de publication">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <?php endif; ?>
 
                     <!-- Afficher les hashtags -->
                     <?php if ($post['campusHashtag']) : ?>
                         <p class="mt-2"><strong>Campus:</strong> <?= htmlspecialchars($post['campusHashtag']) ?></p>
                     <?php endif; ?>
-
-                    <small class="text-muted">Posté le : <?= $post['dateCreation'] ?></small>
+                    <div><small class="text-muted">Posté le : <?= $post['dateCreation'] ?></small></div>
+                    
                     <div class="mt-2">
                         <a href="../include/like.php?id=<?= $post['idPost'] ?>" class="btn btn-light btn-sm">
-                            <i class="bi bi-hand-thumbs-up"></i> Aimer
+                            <i class="bi bi-hand-thumbs-up"></i> Aimer 
+                            <span class="text-muted ms-2"><?= $post['likeCount'] ?> j'aime</span> <!-- Affichage du compteur de j'aime -->
                         </a>
-                        <a href="comment.php?id=<?= $post['idPost'] ?>" class="btn btn-light btn-sm">
-                            <i class="bi bi-chat"></i> Commenter
-                        </a>
+                        
                         <a href="seeComment.php?id=<?= $post['idPost'] ?>" class="btn btn-light btn-sm">
-                            <i class="bi bi-chat"></i> Voir les commentaires
+                            <i class="bi bi-chat"></i> Voir les Commentaires
                         </a>
                     </div>
                 </div>

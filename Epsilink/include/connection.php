@@ -1,53 +1,70 @@
 <?php
 session_start();
 
-// Vérifier que le formulaire a été soumis via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // Récupérer les données du formulaire et les sécuriser
     $mail = isset($_POST['mail']) ? htmlspecialchars($_POST['mail']) : '';
     $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '';
+    $remember = isset($_POST['remember']) ? true : false;
 
-    require 'bd.php'; // fichier de connexion à la base de données
+    if (empty($mail) || empty($password)) {
+        $_SESSION['error'] = "Email et mot de passe sont requis.";
+        header("Location: ../index.php");
+        exit();
+    }
 
-    // Préparer la requête pour récupérer les informations de l'utilisateur par email
+    require 'bd.php';
+
     $sql = "SELECT idUser, nomUser, prenomUser, mdpUser FROM utilisateur WHERE mailUser = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt === false) {
         die("Erreur de préparation de la requête : " . $conn->error);
     }
 
-    // Associer l'email au paramètre de la requête
     $stmt->bind_param("s", $mail);
-
-    // Exécuter la requête
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Vérifier si l'utilisateur existe
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
-        // Vérifier le mot de passe
         if (password_verify($password, $user['mdpUser'])) {
-            // Mot de passe correct, démarrer la session utilisateur
+            // Connexion réussie
             $_SESSION['idUser'] = $user['idUser'];
             $_SESSION['nomUser'] = $user['nomUser'];
             $_SESSION['prenomUser'] = $user['prenomUser'];
+            session_regenerate_id(true); // Sécurité supplémentaire
 
-            // Redirection vers la page "epsilink.html"
+            // Si l'utilisateur coche "Se souvenir de moi"
+            if ($remember) {
+                $token = bin2hex(random_bytes(16)); // Générer un token sécurisé
+                setcookie("user_token", $token, time() + (86400 * 30), "/"); // Stocker un cookie pour 30 jours
+
+                // Enregistrer le token dans la base de données
+                $sql = "UPDATE utilisateur SET remember_token = ? WHERE idUser = ?";
+                $stmt = $conn->prepare($sql);
+                if ($stmt) {
+                    $stmt->bind_param("si", $token, $user['idUser']);
+                    $stmt->execute();
+                } else {
+                    $_SESSION['error'] = "Erreur lors de la connexion. Veuillez réessayer.";
+                    header("Location: ../index.php");
+                    exit();
+                }
+            }
+
             header("Location: ../page/home.php");
             exit();
         } else {
-            // Mot de passe incorrect
-            echo "Mot de passe incorrect.";
+            $_SESSION['error'] = "Mot de passe incorrect.";
+            header("Location: ../index.php");
+            exit();
         }
     } else {
-        // Aucun utilisateur trouvé avec cet email
-        echo "Aucun utilisateur trouvé avec cet email.";
+        $_SESSION['error'] = "Email ou mot de passe incorrect.";
+        header("Location: ../index.php");
+        exit();
     }
 
-    // Fermer la requête et la connexion
     $stmt->close();
     $conn->close();
 }

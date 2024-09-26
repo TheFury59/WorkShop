@@ -1,45 +1,49 @@
 <?php
-// Vérifier que le formulaire a été soumis via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Récupérer et sécuriser les données du formulaire
     $nom = isset($_POST['nom']) ? htmlspecialchars($_POST['nom']) : '';
     $prenom = isset($_POST['prenom']) ? htmlspecialchars($_POST['prenom']) : '';
     $tel = isset($_POST['tel']) ? htmlspecialchars($_POST['tel']) : '';
     $mail = isset($_POST['mail']) ? htmlspecialchars($_POST['mail']) : '';
     $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : '';
+    $confirm_password = isset($_POST['confirm_password']) ? htmlspecialchars($_POST['confirm_password']) : '';
 
-    // Vérification des champs obligatoires
-    if (empty($nom) || empty($prenom) || empty($tel) || empty($mail) || empty($password)) {
-        die("Veuillez remplir tous les champs.");
+    if (empty($nom) || empty($prenom) || empty($tel) || empty($mail) || empty($password) || empty($confirm_password)) {
+        echo "Veuillez remplir tous les champs.";
+        exit();
+    }
+
+    if ($password !== $confirm_password) {
+        echo "Les mots de passe ne correspondent pas.";
+        exit();
     }
 
     require 'bd.php'; 
 
-    // Hashage du mot de passe avant de l'insérer dans la base de données
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-    // Préparer la requête d'insertion
-    $sql = "INSERT INTO utilisateur (nomUser, prenomUser, mdpUser, mailUser, tel) 
-            VALUES (?, ?, ?, ?, ?)";
-
-    // Préparation de la requête pour éviter les injections SQL
-    $stmt = $conn->prepare($sql);
-    if ($stmt === false) {
-        die("Erreur de préparation de la requête : " . $conn->error);
+    $checkMailQuery = "SELECT idUser FROM utilisateur WHERE mailUser = ?";
+    $stmtMail = $conn->prepare($checkMailQuery);
+    $stmtMail->bind_param("s", $mail);
+    $stmtMail->execute();
+    $stmtMail->store_result();
+    
+    if ($stmtMail->num_rows > 0) {
+        echo "Un utilisateur avec cet email existe déjà.";
+        exit();
     }
 
-    // Associer les valeurs aux paramètres
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO utilisateur (nomUser, prenomUser, mdpUser, mailUser, tel) 
+            VALUES (?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
     $stmt->bind_param("sssss", $nom, $prenom, $hashed_password, $mail, $tel);
 
-    // Exécuter la requête
     if ($stmt->execute()) {
         echo "Inscription réussie!";
     } else {
         echo "Erreur lors de l'insertion : " . $stmt->error;
     }
 
-    // Fermer la requête et la connexion
     $stmt->close();
     $conn->close();
 }

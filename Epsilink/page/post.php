@@ -17,13 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $imagePost = file_get_contents($_FILES['imagePost']['tmp_name']);
     }
 
-    // Récupération du hashtag (nom du campus)
-    $campusHashtag = $_POST['campusHashtag'];
-
-    // Insertion dans la base de données (avec image et hashtag)
-    $sql = "INSERT INTO publication (idUser, contenuPost, imagePost, campusHashtag) VALUES (?, ?, ?, ?)";
+    // Insertion dans la base de données (avec ou sans image)
+    $sql = "INSERT INTO publication (idUser, contenuPost, imagePost) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isss", $idUser, $contenuPost, $imagePost, $campusHashtag);
+    $stmt->bind_param("iss", $idUser, $contenuPost, $imagePost);
 
     if ($stmt->execute()) {
         header('Location: ../page/home.php');
@@ -35,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,15 +60,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <a class="nav-link active" href="../page/home.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../page/post.php">Publier
-                            <span class="visually-hidden">(current)</span>
-                        </a>
+                        <a class="nav-link" href="../page/post.php">Publier</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../page/profil.php">Mon Compte</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../page/equipe.html">L' Equipe</a>
+                        <a class="nav-link" href="../page/equipe.html">L'Équipe</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../include/logout.php">Déconnexion</a>
@@ -101,17 +96,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <div class="mb-3">
                                 <label for="imagePost" class="form-label">Ajouter une image</label>
                                 <input type="file" class="form-control" id="imagePost" name="imagePost">
-                            </div>
-
-                            <!-- Hashtag pour le nom du campus -->
-                            <div class="mb-3">
-                                <label for="campusHashtag" class="form-label">Sélectionner le campus (Hashtag)</label>
-                                <select class="form-control" name="campusHashtag" id="campusHashtag" required>
-                                    <option value="#EPSI_Arras">#EPSI_Arras</option>
-                                    <option value="#EPSI_Bordeaux">#EPSI_Bordeaux</option>
-                                    <option value="#EPSI_Lille">#EPSI_Lille</option>
-                                    <option value="#EPSI_Paris">#EPSI_Paris</option>
-                                </select>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Publier</button>

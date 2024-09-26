@@ -75,7 +75,6 @@ body {
 }
 
 .card-body img {
-    border-radius: 50%;
     margin-bottom: 10px;
 }
 
@@ -147,7 +146,6 @@ button.btn-light {
 
 .profile-header img {
     width: 100px;
-    border-radius: 50%;
 }
 
 .profile-header .info {
@@ -302,4 +300,23 @@ img.rounded-circle {
     border-radius: 0; /* Supprimer les coins arrondis */
 }
 
+.img-modal {
+    object-fit: cover;
+    border-radius: 0;
+}
 
+/* Limiter la taille maximale du modal pour correspondre à la taille de l'image */
+.modal-dialog-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    max-height: 100vh; /* Limite la hauteur à la hauteur de la fenêtre */
+    overflow: hidden; /* Empêche le débordement */
+}
+
+.modal-body img {
+    max-width: 100%;
+    max-height: 90vh; /* Laisse un espace pour le titre et le bouton de fermeture */
+    object-fit: contain; /* Assure que l'image garde ses proportions */
+}
