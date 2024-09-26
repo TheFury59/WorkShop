@@ -238,9 +238,14 @@ button.btn-light {
 /* Utility Classes */
 .container {
     padding: 20px;
-    max-width: 1200px;
+    max-width: 1900px;
     margin: 0 auto;
 }
+    .col-md-3 {
+        flex: 0 0 auto;
+        width: 15%;
+        padding-right: 50px;
+    }
 
 .center {
     display: flex;
