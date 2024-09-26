@@ -63,6 +63,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="../page/equipe.html">L' Equipe</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="../include/logout.php">Déconection</a>
                 </li>
                 <!--<li class="nav-item dropdown">
