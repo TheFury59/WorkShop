@@ -68,9 +68,25 @@ if (isset($_GET['deletePost'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['editPost'])) {
     $postId = $_POST['postId'];
     $newContent = $_POST['contenuPost'];
-    $sqlUpdatePost = "UPDATE publication SET contenuPost = ? WHERE idPost = ? AND idUser = ?";
-    $stmt = $conn->prepare($sqlUpdatePost);
-    $stmt->bind_param("sii", $newContent, $postId, $idUser);
+    $hashtags = $_POST['hashtags'] ?? null;
+    $imagePost = null;
+
+    // Gestion de l'image
+    if (isset($_FILES['imagePost']) && $_FILES['imagePost']['error'] == 0) {
+        $imagePost = file_get_contents($_FILES['imagePost']['tmp_name']);
+    }
+
+    // Si une image est ajoutée ou non
+    if ($imagePost) {
+        $sqlUpdatePost = "UPDATE publication SET contenuPost = ?, imagePost = ?, hashtags = ? WHERE idPost = ? AND idUser = ?";
+        $stmt = $conn->prepare($sqlUpdatePost);
+        $stmt->bind_param("ssssi", $newContent, $imagePost, $hashtags, $postId, $idUser);
+    } else {
+        $sqlUpdatePost = "UPDATE publication SET contenuPost = ?, hashtags = ? WHERE idPost = ? AND idUser = ?";
+        $stmt = $conn->prepare($sqlUpdatePost);
+        $stmt->bind_param("ssii", $newContent, $hashtags, $postId, $idUser);
+    }
+    
     $stmt->execute();
     header("Location: profil.php");
     exit();
@@ -78,11 +94,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['editPost'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil de <?= $user['prenomUser'] ?></title>
+    <title>Profil de <?= htmlspecialchars($user['prenomUser']) ?></title>
     <link href="https://bootswatch.com/5/zephyr/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../style/pageStyle.css">
 </head>
@@ -103,16 +119,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['editPost'])) {
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="../page/home.php">Home</a>
+                        <a class="nav-link active" href="home.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../page/post.php">Publier</a>
+                        <a class="nav-link" href="post.php">Publier</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../page/profil.php">Mon Compte</a>
+                        <a class="nav-link" href="profil.php">Mon Compte</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../page/equipe.html">L' Equipe</a>
+                        <a class="nav-link" href="equipe.html">L'Équipe</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../include/logout.php">Déconnexion</a>
@@ -133,8 +149,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['editPost'])) {
                     <img src="../img/default.png" alt="Photo de profil" class="rounded-circle" width="100">
                 <?php endif; ?>
                 <div class="ms-3">
-                    <h1><?= $user['nomUser'] . " " . $user['prenomUser'] ?></h1>
-                    <p>Email : <?= $user['mailUser'] ?></p>
+                    <h1><?= htmlspecialchars($user['nomUser'] . " " . $user['prenomUser']) ?></h1>
+                    <p>Email : <?= htmlspecialchars($user['mailUser']) ?></p>
                 </div>
             </div>
         </div>
@@ -145,15 +161,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['editPost'])) {
             <form method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="nomUser" class="form-label">Nom</label>
-                    <input type="text" class="form-control" id="nomUser" name="nomUser" value="<?= $user['nomUser'] ?>" required>
+                    <input type="text" class="form-control" id="nomUser" name="nomUser" value="<?= htmlspecialchars($user['nomUser']) ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="prenomUser" class="form-label">Prénom</label>
-                    <input type="text" class="form-control" id="prenomUser" name="prenomUser" value="<?= $user['prenomUser'] ?>" required>
+                    <input type="text" class="form-control" id="prenomUser" name="prenomUser" value="<?= htmlspecialchars($user['prenomUser']) ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="mailUser" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="mailUser" name="mailUser" value="<?= $user['mailUser'] ?>" required>
+                    <input type="email" class="form-control" id="mailUser" name="mailUser" value="<?= htmlspecialchars($user['mailUser']) ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="photoProfil" class="form-label">Photo de profil</label>
@@ -168,17 +184,60 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['editPost'])) {
             <h2>Mes publications</h2>
             <?php while ($post = $posts->fetch_assoc()) { ?>
                 <div class="post bg-white p-3 mb-3 rounded shadow-sm">
-                    <p><?= $post['contenuPost'] ?></p>
-                    <small class="text-muted">Posté le : <?= $post['dateCreation'] ?></small>
+                    <p><?= htmlspecialchars($post['contenuPost']) ?></p>
+
+                    <!-- Affichage des hashtags -->
+                    <?php if ($post['hashtags']) : ?>
+                        <p><strong>Hashtags:</strong> <?= htmlspecialchars($post['hashtags']) ?></p>
+                    <?php endif; ?>
+
+                    <!-- Affichage de l'image de la publication -->
+                    <?php if ($post['imagePost']) : ?>
+                        <img src="data:image/jpeg;base64,<?= base64_encode($post['imagePost']) ?>" class="img-fluid mt-3" alt="Image de publication">
+                    <?php endif; ?>
+
+                    <small class="text-muted">Posté le : <?= htmlspecialchars($post['dateCreation']) ?></small>
+
                     <!-- Actions de modification et suppression -->
                     <div class="mt-2">
-                        <form method="POST" class="d-inline">
-                            <input type="hidden" name="postId" value="<?= $post['idPost'] ?>">
-                            <input type="text" name="contenuPost" class="form-control mb-2" value="<?= $post['contenuPost'] ?>">
-                            <button type="submit" name="editPost" class="btn btn-secondary btn-sm">Modifier</button>
-                        </form>
+                        <a href="profil.php?editPost=<?= $post['idPost'] ?>" class="btn btn-secondary btn-sm">Modifier</a>
                         <a href="profil.php?deletePost=<?= $post['idPost'] ?>" class="btn btn-danger btn-sm">Supprimer</a>
                     </div>
+                </div>
+            <?php } ?>
+
+            <!-- Si un post est en cours de modification -->
+            <?php if (isset($_GET['editPost'])) {
+                $postId = $_GET['editPost'];
+                $sqlGetPost = "SELECT * FROM publication WHERE idPost = ? AND idUser = ?";
+                $stmt = $conn->prepare($sqlGetPost);
+                $stmt->bind_param("ii", $postId, $idUser);
+                $stmt->execute();
+                $editPost = $stmt->get_result()->fetch_assoc();
+            ?>
+                <div class="post bg-light p-3 mt-3 rounded shadow-sm">
+                    <h3>Modifier la publication</h3>
+                    <form method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="postId" value="<?= $editPost['idPost'] ?>">
+                        <div class="mb-3">
+                            <label for="contenuPost" class="form-label">Contenu</label>
+                            <textarea name="contenuPost" id="contenuPost" class="form-control" rows="3"><?= htmlspecialchars($editPost['contenuPost']) ?></textarea>
+                        </div>
+
+                        <!-- Modification des hashtags -->
+                        <div class="mb-3">
+                            <label for="hashtags" class="form-label">Hashtags</label>
+                            <input type="text" class="form-control" id="hashtags" name="hashtags" value="<?= htmlspecialchars($editPost['hashtags']) ?>" placeholder="#exemple #hashtag">
+                        </div>
+
+                        <!-- Modification de l'image -->
+                        <div class="mb-3">
+                            <label for="imagePost" class="form-label">Modifier l'image</label>
+                            <input type="file" class="form-control" id="imagePost" name="imagePost">
+                        </div>
+
+                        <button type="submit" name="editPost" class="btn btn-primary">Enregistrer</button>
+                    </form>
                 </div>
             <?php } ?>
         </div>

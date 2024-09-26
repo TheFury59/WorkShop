@@ -7,12 +7,14 @@ if (!isset($_SESSION['idUser'])) {
 
 require '../include/bd.php'; // fichier de connexion à la base de données
 
-// Récupérer les publications de tous les utilisateurs, y compris la photo de profil
-$sql = "SELECT publication.*, utilisateur.nomUser, utilisateur.prenomUser, utilisateur.photoProfil
-        FROM publication 
-        JOIN utilisateur ON publication.idUser = utilisateur.idUser 
-        ORDER BY publication.dateCreation DESC";
-$result = $conn->query($sql);
+// Récupérer les informations de l'utilisateur connecté pour afficher la photo de profil dans la zone de publication
+$idUser = $_SESSION['idUser'];
+$sqlUser = "SELECT photoProfil FROM utilisateur WHERE idUser = ?";
+$stmtUser = $conn->prepare($sqlUser);
+$stmtUser->bind_param("i", $idUser);
+$stmtUser->execute();
+$resultUser = $stmtUser->get_result();
+$user = $resultUser->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -28,40 +30,38 @@ $result = $conn->query($sql);
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-    <div class="container-fluid">
-    <a class="navbar-brand" href="home.php">
-        <img src="../img/Epsi.png" alt="Logo" width="50" height="40" class="d-inline-block align-text-top">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-        <form class="d-flex">
-            <input class="form-control me-sm-2" type="search" placeholder="Search">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <div class="collapse navbar-collapse" id="navbarColor01">
-            <ul class="navbar-nav ms-auto"> <!-- Ajout de ms-auto pour aligner à droite -->
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Home
-                        <span class="visually-hidden">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../page/post.php">Publier</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../page/profil.php">Mon Compte</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../page/equipe.html">L' Equipe</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../include/logout.php">Déconnexion</a>
-                </li>
-            </ul>
+        <div class="container-fluid">
+            <a class="navbar-brand" href="home.php">
+                <img src="../img/Epsi.png" alt="Logo" width="50" height="40" class="d-inline-block align-text-top">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <form class="d-flex">
+                <input class="form-control me-sm-2" type="search" placeholder="Search">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="home.php">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="post.php">Publier</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profil.php">Mon Compte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="equipe.html">L'Equipe</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../include/logout.php">Déconnexion</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
     <!-- Container principal -->
     <div class="container mt-4">
@@ -82,20 +82,35 @@ $result = $conn->query($sql);
                 <!-- Ecrire une publication -->
                 <div class="card mb-4">
                     <div class="card-body">
-                        <form method="POST" action="">
+                        <form id="publicationForm" method="POST" enctype="multipart/form-data">
                             <div class="d-flex mb-3">
-                                <img src="../img/profile.png" alt="Avatar" class="rounded-circle me-3" width="50">
-                                <textarea class="form-control" name="contenuPost" placeholder="Écrire une publication..." rows="2"></textarea>
+                                <!-- Afficher la photo de profil dans la zone de publication -->
+                                <?php if ($user['photoProfil']) : ?>
+                                    <img src="data:image/jpeg;base64,<?= base64_encode($user['photoProfil']) ?>" alt="Avatar" class="rounded-circle me-3" width="50">
+                                <?php else : ?>
+                                    <img src="../img/default.png" alt="Avatar" class="rounded-circle me-3" width="50">
+                                <?php endif; ?>
+                                <textarea class="form-control" name="contenuPost" placeholder="Écrire une publication..." rows="2" required></textarea>
                             </div>
+
+                            <!-- Ajout d'image -->
+                            <div class="mb-3">
+                                <label for="imagePost" class="form-label">Ajouter une image</label>
+                                <input type="file" class="form-control" id="imagePost" name="imagePost">
+                            </div>
+
+                            <!-- Sélection du campus -->
+                            <div class="mb-3">
+                                <label for="campusHashtag" class="form-label">Sélectionner le campus (Hashtag)</label>
+                                <select class="form-control" name="campusHashtag" id="campusHashtag" required>
+                                    <option value="#EPSI_Arras">#EPSI_Arras</option>
+                                    <option value="#EPSI_Bordeaux">#EPSI_Bordeaux</option>
+                                    <option value="#EPSI_Lille">#EPSI_Lille</option>
+                                    <option value="#EPSI_Paris">#EPSI_Paris</option>
+                                </select>
+                            </div>
+
                             <div class="d-flex justify-content-between">
-                                <div>
-                                    <button type="button" class="btn btn-light">
-                                        <i class="bi bi-image"></i> Image
-                                    </button>
-                                    <button type="button" class="btn btn-light">
-                                        <i class="bi bi-calendar"></i> Événement
-                                    </button>
-                                </div>
                                 <button type="submit" class="btn btn-primary">Publier</button>
                             </div>
                         </form>
@@ -104,34 +119,7 @@ $result = $conn->query($sql);
 
                 <!-- Affichage des publications -->
                 <div class="feed">
-                    <h2>Fil d'actualité</h2>
-                    <?php while ($post = $result->fetch_assoc()) { ?>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <!-- Afficher la photo de profil -->
-                                    <?php if ($post['photoProfil']) : ?>
-                                        <img src="data:image/jpeg;base64,<?= base64_encode($post['photoProfil']) ?>" alt="Avatar" class="rounded-circle me-3" width="50">
-                                    <?php else : ?>
-                                        <img src="../img/default.png" alt="Avatar" class="rounded-circle me-3" width="50">
-                                    <?php endif; ?>
-                                    <div>
-                                        <h5 class="card-title"><?= $post['nomUser'] . " " . $post['prenomUser'] ?></h5>
-                                        <p class="card-text"><?= $post['contenuPost'] ?></p>
-                                        <small class="text-muted">Posté le : <?= $post['dateCreation'] ?></small>
-                                        <div class="mt-2">
-                                            <a href="../include/like.php?id=<?= $post['idPost'] ?>" class="btn btn-light btn-sm">
-                                                <i class="bi bi-hand-thumbs-up"></i> Aimer
-                                            </a>
-                                            <a href="comment.php?id=<?= $post['idPost'] ?>" class="btn btn-light btn-sm">
-                                                <i class="bi bi-chat"></i> Commenter
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <?php } ?>
+                    <!-- Les publications seront chargées ici via AJAX -->
                 </div>
             </div>
         </div>
@@ -139,24 +127,44 @@ $result = $conn->query($sql);
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- JavaScript pour le chargement des publications et soumission via AJAX -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPosts(); // Charger les publications lors du chargement de la page
+
+            const form = document.getElementById('publicationForm');
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault(); // Empêche l'envoi normal du formulaire
+
+                const formData = new FormData(form);
+
+                fetch('../include/post_publication.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(result => {
+                    form.reset(); // Réinitialiser le formulaire
+                    loadPosts(); // Recharger les publications
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la soumission :', error);
+                });
+            });
+        });
+
+        function loadPosts() {
+            fetch('load_posts.php')
+            .then(response => response.text())
+            .then(data => {
+                document.querySelector('.feed').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des publications :', error);
+            });
+        }
+    </script>
 </body>
 </html>
-
-<?php
-// Traitement du formulaire de publication
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $contenuPost = $_POST['contenuPost'];
-    $idUser = $_SESSION['idUser'];
-
-    $sql = "INSERT INTO publication (idUser, contenuPost) VALUES (?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("is", $idUser, $contenuPost);
-
-    if ($stmt->execute()) {
-        header('Location: ../page/home.php');
-        exit();
-    } else {
-        echo "Erreur lors de la publication.";
-    }
-}
-?>

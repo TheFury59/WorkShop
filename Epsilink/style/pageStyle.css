@@ -7,7 +7,9 @@ body {
 }
 
 .container {
-    max-width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 /* Navbar */
@@ -55,22 +57,35 @@ body {
     min-height: calc(100vh - 80px); /* Le contenu prend au moins toute la hauteur disponible */
 }
 
-/* Card for creating a post */
+/* Card for creating and displaying posts */
 .card {
     border: none;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #1A73E8;
+    color: #fff;
+    font-size: 20px;
+    padding: 15px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 .card-body img {
     border-radius: 50%;
+    margin-bottom: 10px;
 }
 
 textarea.form-control {
     resize: none;
     border-radius: 8px;
     border: 1px solid #ddd;
+    padding: 10px;
 }
+
 
 /* Boutons dans le formulaire */
 button.btn {
@@ -120,7 +135,7 @@ button.btn-light {
     font-size: 14px;
 }
 
-/* Ajout spécifique pour le profil utilisateur */
+/* Profil utilisateur */
 .profile-header {
     display: flex;
     align-items: center;
@@ -274,3 +289,12 @@ img.rounded-circle {
     height: 50px;
     border-radius: 50%; /* Assurer un effet de cercle */
 }
+
+.img-fluid {
+    width: 300px; /* Largeur fixe pour les images carrées */
+    height: 300px; /* Hauteur fixe */
+    object-fit: cover; /* Assurer que l'image reste proportionnelle */
+    border-radius: 0; /* Supprimer les coins arrondis */
+}
+
+
